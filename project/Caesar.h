@@ -3,7 +3,7 @@
 #include <string.h>
 #include <vector>
 
-void Caesar_Encryption(char* plaintext, char* ciphertext, int key);
-void Caesar_Decryption(char* ciphertext, char* plaintext, int key);
+void Caesar_Encryption(char* plaintext, int textSize, char* ciphertext, int key);
+void Caesar_Decryption(char* ciphertext, int textSize, char* plaintext, int key);
 
 #endif // !CAESAR_H_
