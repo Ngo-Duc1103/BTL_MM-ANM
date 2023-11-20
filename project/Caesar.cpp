@@ -8,7 +8,7 @@ void Caesar_Decryption(std::string ciphertext, int key, std::string& plaintext);
 
 int main()
 {
-    std::string plaintext = u8"Hi, my name is Viet Bach! ѠЄ Σ ǽ˷œŐ";
+    std::string plaintext = u8"Hi, my name is Viet Bach! +-- '';';;;**&*&^&. ѠЄ Σ ǽ˷œŐ";
     int key = 3;
     std::string ciphertext;
     std::string decryptedtext;
@@ -41,6 +41,9 @@ void Caesar_Encryption(std::string plaintext, int key, std::string& ciphertext)
             else
                 cipher += char(int(c + key - 65) % 26 + 65);
         }
+		else if (c >= 32 && c <= 126){ // ASCII printable characters
+			cipher += char((c - 32 + key) % 95 + 32);
+		}
         else
             cipher += c;
     }
@@ -62,6 +65,9 @@ void Caesar_Decryption(std::string ciphertext, int key, std::string& plaintext)
             else
                 plain += char(int(c - key - 65 + 26) % 26 + 65);
         }
+		else if (c >= 32 && c <= 126){ // ASCII printable characters
+			plain += char((c - 32 - key + 95) % 95 + 32);
+		}
         else
             plain += c;
     }
