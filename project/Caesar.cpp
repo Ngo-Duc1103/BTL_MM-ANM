@@ -1,40 +1,71 @@
 #include "Caesar.h"
+// ----------------------------------------------------------------------------------
+#include <iostream>
+#include <string>
 
-// !!! THESE ARE ENCRYPTION AND DECRYPTION OF ONLY ENGLISH-BASED ALPHABETS, NOT UTF-8 STANDARD !!!
+void Caesar_Encryption(std::string plaintext, int key, std::string& ciphertext);
+void Caesar_Decryption(std::string ciphertext, int key, std::string& plaintext);
 
-int modulo(int num){
-    if (num >= 0) return num % 26;
-    else{
-        while (num < 0) num += 26;
-        return num;
-    }
-}
-
-void Caesar_Encryption(char* plaintext, int textSize, char* ciphertext, int key)
+int main()
 {
-	std::vector<char> cipher;																// use vector cuz not know the size of plaintext
-    for (int i = 0; i < textSize; i++){
-        if (90 >= plaintext[i] && plaintext[i] >= 65)
-			cipher.push_back( char( int( 65 + modulo(plaintext[i] + key - 65) ) ) );		// encrypt with capital letters
-		else if (122 >= plaintext[i] && plaintext[i] >= 97)
-			cipher.push_back( char( int( 97 + modulo(plaintext[i] + key - 97) ) ) );		// encrypt with non-capital letters
-	}
+    std::string plaintext = u8"Hi, my name is Viet Bach! ѠЄ Σ ǽ˷œŐ";
+    int key = 3;
+    std::string ciphertext;
+    std::string decryptedtext;
 
-	for (int i = 0; i < cipher.size(); i++) ciphertext[i] = cipher[i];						// move ciphertext from inner function to main
+    Caesar_Encryption(plaintext, key, ciphertext);
+    Caesar_Decryption(ciphertext, key, decryptedtext);
+
+    std::cout << "Plaintext: " << plaintext << std::endl;
+    std::cout << "Ciphertext: " << ciphertext << std::endl;
+    std::cout << "Decrypted text: " << decryptedtext << std::endl;
+
+    if (plaintext == decryptedtext)
+        std::cout << "Encryption and decryption successful!" << std::endl;
+    else
+        std::cout << "Encryption and decryption failed!" << std::endl;
+
+    return 0;
 }
 
+void Caesar_Encryption(std::string plaintext, int key, std::string& ciphertext)
+{
+    std::string cipher;                                                        
+    for (int i = 0; i < plaintext.size(); i++){
+        char c = plaintext[i];
+        if (c & 0x80) { // non-ASCII character
+            cipher += char((c + key) % 256);
+        } else if (isalpha(c)){
+            if (islower(c))
+                cipher += char(int(c + key - 97) % 26 + 97);
+            else
+                cipher += char(int(c + key - 65) % 26 + 65);
+        }
+        else
+            cipher += c;
+    }
+    ciphertext = cipher;
+}
 
 // Since this cipher is symmetric, decryption is technically reversed of encryption
 
-void Caesar_Decryption(char* ciphertext, int textSize, char* plaintext, int key)
+void Caesar_Decryption(std::string ciphertext, int key, std::string& plaintext)
 {
-	std::vector<char> plain;
-    for (int i = 0; i < textSize; i++){
-        if (90 >= ciphertext[i] && ciphertext[i] >= 65)
-			plain.push_back( char( int( 65 + modulo(ciphertext[i] - key - 65) ) ) );
-		else if (122 >= ciphertext[i] && ciphertext[i] >= 97)
-			plain.push_back( char( int( 97 + modulo(ciphertext[i] - key - 97) ) ) );
-	}
-
-	for (int i = 0; i < plain.size(); i++) plaintext[i] = plain[i];
+    std::string plain;
+    for (int i = 0; i < ciphertext.size(); i++){
+        char c = ciphertext[i];
+        if (c & 0x80) { // non-ASCII character
+            plain += char((c - key) % 256);
+        } else if (isalpha(c)){
+            if (islower(c))
+                plain += char(int(c - key - 97 + 26) % 26 + 97);
+            else
+                plain += char(int(c - key - 65 + 26) % 26 + 65);
+        }
+        else
+            plain += c;
+    }
+    plaintext = plain;
 }
+
+// ----------------------------------------------------------------------------------
