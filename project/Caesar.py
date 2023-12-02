@@ -19,13 +19,13 @@ def caesar_decrypt(encrypted_text, shift):
 # Get the directory of the script
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
-# Construct the full path to the file
-file_path = os.path.join(script_dir, 'input.txt')
+# Construct the full path to the plaintext file
+plaintext_file_path = os.path.join(script_dir, 'plaintext.txt')
 
-# Now use file_path when opening the file
-with open(file_path, 'r', encoding='utf-8') as file:
+# Now use plaintext_file_path when opening the file
+with open(plaintext_file_path, 'r', encoding='utf-8') as file:
     text = file.read()
-
+print(f"Plaintext read from file at {os.path.abspath(plaintext_file_path)}")
 shift = 12
 
 encrypted = caesar_encrypt(text, shift)
@@ -44,6 +44,6 @@ print(f"Decrypted text written to file at {os.path.abspath(decrypted_file_path)}
 
 # Compare the original text and the decrypted text
 if text == decrypted:
-    print("The plain text and the decrypted text is as same as each other. The algorithm works successfully.")
+    print("\nThe plain text and the decrypted text is as same as each other. The algorithm works successfully.")
 else:
-    print("The plain text and the decrypted text is different compared to each other. The algorithm works unsuccessfully.")
+    print("\nThe plain text and the decrypted text is different compared to each other. The algorithm works unsuccessfully.")
