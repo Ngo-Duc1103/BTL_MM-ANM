@@ -68,7 +68,7 @@ decrypted_space = caesar_decrypt(encrypted, shift_space)
 # Write the decrypted text to a file
 decrypted_file_path = os.path.join(script_dir, 'decrypted.txt')
 with open(decrypted_file_path, 'w', encoding='utf-8') as file:
-    file.write(f"Decrypted text with shift space:\n")
+    file.write(f"Decrypted text with key {shift_space}:\n")
     file.write(decrypted_space)
     file.write("\n\n//-----------------------------------------------------------------------------//")
     file.write("\n\n")
@@ -85,12 +85,12 @@ common_chars_english = ['e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r', 'd']
 
 # Open the decrypted file in write mode
 decrypted_file_path = os.path.join(script_dir, 'decrypted.txt')
-with open(decrypted_file_path, 'w', encoding='utf-8') as file:
+with open(decrypted_file_path, 'a', encoding='utf-8') as file:
     # Write the decrypted text for each common character in English
     for char in common_chars_english:
         shift_char = ord(most_common_char) - ord(char)
         decrypted = caesar_decrypt(encrypted, shift_char)
-        file.write(f"Decrypted text with shift {char}:\n")
+        file.write(f"Decrypted text with key {shift_char}:\n")
         file.write(decrypted)
         file.write("\n\n//-----------------------------------------------------------------------------//")
         file.write("\n\n")
